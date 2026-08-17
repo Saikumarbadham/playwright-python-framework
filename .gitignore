@@ -22,3 +22,7 @@ test-results/
 # OS files
 .DS_Store
 Thumbs.db
+
+learn.py
+
+.gitigoner
