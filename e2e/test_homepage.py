@@ -52,6 +52,7 @@ def test_radio_button(page:Page):
    page.get_by_test_id("option1").click()
    expect(page.get_by_test_id("option1")).to_be_checked()
    expect(page.get_by_test_id("option2")).not_to_be_checked()
+   expect(page.get_by_test_id("option3")).not_to_be_checked
     
 def test_assertions(page:Page):
    page.goto("https://www.saucedemo.com/")
