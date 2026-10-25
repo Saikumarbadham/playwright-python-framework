@@ -37,9 +37,10 @@ from playwright.async_api import async_playwright
 #   page.locator("#product-sort-container").select_option("Name (A to Z)")
 
 
-def test_file_upload(page:Page):
+def test_file_upload(page: Page, tmp_path):
    page.goto("https://commitquality.com/practice-file-upload")
-   file_path=r"C:\Users\RK REDDY\Downloads\sample.pdf"
+   file_path = tmp_path / "sample.pdf"
+   file_path.write_bytes(b"%PDF-1.4\n")
    page.get_by_test_id("file-input").set_input_files(file_path)
    page.wait_for_load_state("domcontentloaded")
    # expect(page.get_by_text("sample.pdf)).to_be_visible

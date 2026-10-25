@@ -1,33 +1,32 @@
 pipeline {
-
     agent any
 
     stages {
-
-        stage('Checkout') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/Saikumarbadham/playwright-python-framework/blob/main'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
+                bat 'python --version'
                 bat 'python -m pip install --upgrade pip'
                 bat 'python -m pip install -r requirements.txt'
             }
         }
 
-        stage('Install Playwright') {
+        stage('Install Playwright Browser') {
             steps {
-                bat 'python -m playwright install'
+                bat 'python -m playwright install chromium'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m pytest'
+                bat 'if not exist reports mkdir reports'
+                bat 'python -m pytest --junitxml=reports\\junit.xml'
             }
+        }
+    }
+
+    post {
+        always {
+            junit testResults: 'reports/junit.xml', allowEmptyResults: true
         }
     }
 }
