@@ -19,7 +19,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat 'if not exist reports mkdir reports'
-                bat 'python -m pytest --junitxml=reports\\junit.xml'
+                bat 'python -m pytest --junitxml=reports\\junit.xml --html=reports\\pytest-report.html --self-contained-html --output=reports\\test-results --screenshot=only-on-failure --video=retain-on-failure --tracing=retain-on-failure'
             }
         }
     }
@@ -27,6 +27,15 @@ pipeline {
     post {
         always {
             junit testResults: 'reports/junit.xml', allowEmptyResults: true
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'pytest-report.html',
+                reportName: 'Pytest HTML Report'
+            ])
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
     }
 }
