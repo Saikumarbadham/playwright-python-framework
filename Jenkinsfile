@@ -35,11 +35,14 @@ pipeline {
                 reportFiles: 'pytest-report.html',
                 reportName: 'Pytest HTML Report'
             ])
+            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
             allure([
+                commandline: 'Allure',
                 includeProperties: false,
+                reportBuildPolicy: 'ALWAYS',
+                reportName: 'Allure Report',
                 results: [[path: 'reports/allure-results']]
             ])
-            archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
     }
 }
