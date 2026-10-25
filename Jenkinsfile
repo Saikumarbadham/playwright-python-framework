@@ -19,7 +19,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat 'if not exist reports mkdir reports'
-                bat 'python -m pytest --junitxml=reports\\junit.xml --html=reports\\pytest-report.html --self-contained-html --output=reports\\test-results --screenshot=only-on-failure --video=retain-on-failure --tracing=retain-on-failure'
+                bat 'python -m pytest --junitxml=reports\\junit.xml --html=reports\\pytest-report.html --self-contained-html --alluredir=reports\\allure-results --output=reports\\test-results --screenshot=only-on-failure --video=retain-on-failure --tracing=retain-on-failure'
             }
         }
     }
@@ -34,6 +34,10 @@ pipeline {
                 reportDir: 'reports',
                 reportFiles: 'pytest-report.html',
                 reportName: 'Pytest HTML Report'
+            ])
+            allure([
+                includeProperties: false,
+                results: [[path: 'reports/allure-results']]
             ])
             archiveArtifacts artifacts: 'reports/**/*', allowEmptyArchive: true
         }
