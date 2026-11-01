@@ -79,14 +79,14 @@ def test_assertions(page:Page):
 
    expect(page.get_by_text("Products")).to_be_visible()
 
-def test_iframesd(page:Page):
+def test_iframesd(page):
    page.goto("https://commitquality.com/practice")
    page.get_by_text("Iframes", exact=True).click()
    frame = page.frame_locator("iframe")
    frame.get_by_placeholder("Filter by product name").fill("hiuuh")
    frame.locator(".filter-button").nth(0).click()
 
-def test_accordion(page: Page):
+def test_accordion(page):
     page.goto("https://www.geeksforgeeks.org/computer-networks/web-pages/")
 
     accordion = page.get_by_role("button", name="Computer Networks")
@@ -94,7 +94,7 @@ def test_accordion(page: Page):
 
     expect(page.get_by_text("Web Pages")).to_be_visible()
 
-def test_get(playwright:playwright):
+def test_get(playwright):
    request=playwright.request.new_context(
 
       base_url="https://jsonplaceholder.typicode.com"
@@ -104,7 +104,7 @@ def test_get(playwright:playwright):
    print(response.status)
    request.dispose
 
-def test_post(playwright:playwright):
+def test_post(playwright):
    request=playwright.request.new_context(
    
          base_url="https://jsonplaceholder.typicode.com"
@@ -123,11 +123,20 @@ def test_post(playwright:playwright):
    # request.dispose()
 
 
+def test_max(page):
+   page.reload("https://jsonplaceholder.typicode.com")
+   expect(page.locator("#dude")).to_be_checked()
+   page.loctor(".class").fill("username")
+   page.get_by_text().fill
+   page.get_by_role('button',name='dude')
+   page.locator().type()
+   page.locator().check()
+   page.locator().uncheck()
+   page.locator().blur()
+   page.locator().drag_to_target()
+   page.screenshot("")
+   page.locator().hover()
+   page.locator().dblclick()
 
 
 
-
-
-
-   
-   

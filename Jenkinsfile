@@ -19,7 +19,18 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat 'if not exist reports mkdir reports'
-                bat 'python -m pytest --junitxml=reports\\junit.xml --html=reports\\pytest-report.html --self-contained-html --alluredir=reports\\allure-results --output=reports\\test-results --screenshot=only-on-failure --video=retain-on-failure --tracing=retain-on-failure'
+                script {
+                    def testStatus = bat(
+                        returnStatus: true,
+                        script: 'python -m pytest --junitxml=reports\\junit.xml --html=reports\\pytest-report.html --self-contained-html --alluredir=reports\\allure-results --output=reports\\test-results --screenshot=only-on-failure --video=retain-on-failure --tracing=retain-on-failure > reports\\pytest-output.txt 2>&1'
+                    )
+                    bat 'type reports\\pytest-output.txt'
+
+                    if (testStatus != 0) {
+                        bat 'python ai_analysis.py reports\\pytest-output.txt'
+                        error("Pytest failed with exit code ${testStatus}")
+                    }
+                }
             }
         }
     }

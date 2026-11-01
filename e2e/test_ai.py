@@ -1,27 +1,25 @@
-import pytest
-from playwright.async_api import async_playwright
 
-@pytest.mark.asyncio
-async def test_patch_user():
+from playwright.async_api import Playwright
 
-    async with async_playwright() as playwright:
 
-        request = await playwright.request.new_context(
-            base_url="https://jsonplaceholder.typicode.com"
-        )
+def test_url(playwright:Playwright):
+    base ="url"
+    request =playwright.request.new_context
+    response = request.post(base,data={
+        "name":"sai",
+        "id":23
+    })
+    res=response
+    data=response.json
+    response.stausOk()
+    assert(res).to_be(200)
+    assert data["name"]=="sai"
+    dat=response.json
+    assert dat["id"]==23
+    request.dispose()
 
-        response = await request.patch(
-            "/users/1",
-            data={
-                "name": "Saik",
-                "role": "QA Engineers"
-            }
-        )
 
-        assert response.status == 200
+    request =playwright.request.new_context
+    respose = request.delete("")
+    
 
-        response_body = await response.json()
-
-        print(response_body)
-
-        await request.dispose()

@@ -2,7 +2,7 @@ from playwright.sync_api import Page
 
 
 class LoginPage:
-    def __init__(self, page: Page):
+    def __init__(self, page:Page):
         self.page = page
 
         # Locators
@@ -30,6 +30,8 @@ class LoginPage:
 
     def get_error_message(self) -> str:
         return self.error_message.inner_text()
+
+    
 
 
    
