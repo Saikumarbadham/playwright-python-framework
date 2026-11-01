@@ -19,6 +19,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 bat 'if not exist reports mkdir reports'
+                bat 'curl.exe --connect-timeout 5 http://localhost:11434/api/tags'
                 script {
                     def testStatus = bat(
                         returnStatus: true,
