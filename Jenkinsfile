@@ -28,7 +28,7 @@ pipeline {
                     bat 'type reports\\pytest-output.txt'
 
                     if (testStatus != 0) {
-                        bat 'python ai_analysis.py reports\\pytest-output.txt'
+                        bat 'python ai_analysis.py reports\\pytest-output.txt reports\\ollama-analysis.txt'
                         error("Pytest failed with exit code ${testStatus}")
                     }
                 }
