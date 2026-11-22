@@ -179,7 +179,7 @@ print(total)
 sort =[8,9,7,6,4,3]
 
 for s1 in range(len(sort)):
-    for s2 in range(len(sort)-1):
+    for s2 in range(len(sort) -s1 -1):
         if sort[s2] > sort[s2 + 1]:
             temp=sort[s2]
             sort[s2]=sort[s2+1]

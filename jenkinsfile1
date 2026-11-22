@@ -1,0 +1,46 @@
+pipeline{
+
+agent(
+    lable'linux'
+)
+parameters{
+    choice(
+        name:"js",
+        choice:['chrom','edge','firefox']
+    ),
+    string(
+        name:"data",
+        defaultValue:"sjfs"
+
+    ),
+    booleanParam(
+        name:"jhsd",
+        defaultValue:true
+    )
+}
+
+
+
+stages{
+
+    stage(install){
+        checkout sm
+        bat 'pip install pytest'
+        sh ''
+
+    }
+    stage(run command){
+        bat 'pytest e2e/ --browser chromium $(params.tags)'
+    }
+}
+
+post{
+    always{
+        publishHTML(target[
+            reportDir: 'reports',
+            reportFiles: 'report.html',
+        ])
+    }
+}
+
+}

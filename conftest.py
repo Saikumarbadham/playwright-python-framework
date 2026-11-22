@@ -16,3 +16,24 @@ def login(page: Page):
     page.wait_for_load_state("networkidle")
 
     yield page
+
+
+@pytest.fixture(scope="function",autouse="True")
+def auth(browser):
+
+    context = browser.new_context()
+    page = context.new_page()
+
+    page.goto("https://www.saucedemo.com/")
+
+    page.locator("#user-name").fill("standard_user")
+    page.locator("#password").fill("secret_sauce")
+    page.locator("#login-button").click()
+
+    page.wait_for_url("**/inventory.html")
+
+    context.storage_state(path="auth.json")
+
+    yield page
+
+    context.close()

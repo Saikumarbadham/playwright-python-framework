@@ -5,6 +5,8 @@ from playwright.sync_api import Page,playwright
 from playwright.sync_api import expect
 import pytest
 from playwright.async_api import async_playwright
+from playwright.async_api import Playwright
+
 
 # class home:
 #  def test_homepage(login):
@@ -78,7 +80,7 @@ def test_assertions(page:Page):
     )
 
    expect(page.get_by_text("Products")).to_be_visible()
-
+@pytest.mark.smoke
 def test_iframesd(page):
    page.goto("https://commitquality.com/practice")
    page.get_by_text("Iframes", exact=True).click()
@@ -138,5 +140,61 @@ def test_max(page):
    page.locator().hover()
    page.locator().dblclick()
 
+@pytest.fixture(autouse=True)
+def before_each(page):
+   pass
 
+@pytest.fixture(autouse=True)
+def after_each(page):
+   yield
 
+def api(playwright:Playwright):
+   request = playwright.request.new_context()
+   response=request.post("url",data={
+      "name":"sai",
+      "id":23,
+      
+   })
+
+   data =response
+   assert data["name"]=="sai"
+   assert "applicatiom/json" in response
+
+def hover(page:Page):
+  main = page.locator("#menu")
+  main.hover()
+  main.click()
+
+def drag(page:Page):
+   target = page.locator("#mjh")
+   hh=page.locator("#jh")
+   target.drag_to.hh
+   expect(target.locator("#source")).to_be_visible()
+
+def mouse(page:Page):
+   page.mouse.move(
+      s_box["x"] + s_box["width"] /2
+
+   )
+   page.mouse.down()
+
+def actions(page:Page):
+   page.get_by_text("hg").click()
+   page.locator("#dropdown").select_option("option")
+   path=""
+   page.locator("ih").set_input_files(path)
+   frame =page.frame_locator("pjd")
+   frame.locator("hd").click()
+   expect(page).to_have_url("url")
+   expect(page).to_have_title("dude")
+   popup=page.locator("#popup")
+   popup.click()
+   expect(popup).to_contain_text("hgd")
+   sg=page.locator("hgw").hover()
+   sg.click()
+   # download
+   #another pages
+
+def xpath(page:Page):
+   page.locator("//import[text()='jhhd']")
+   page.locator("//div[@button='ekj']").click()
